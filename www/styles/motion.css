@@ -1,0 +1,25 @@
+/* Animations (keyframes). */
+@keyframes drawerIn{from{transform:translateX(-100%);opacity:.6}to{transform:translateX(0);opacity:1}}
+@keyframes rowIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes sheetUp{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+@keyframes bootPulse{0%{transform:scale(.86);opacity:.55}50%{transform:scale(1);opacity:1}100%{transform:scale(.86);opacity:.55}}
+@keyframes ovIn{from{opacity:0}to{opacity:1}}
+@keyframes repL{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes repR{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+@keyframes rowPop{0%{opacity:0;transform:translateY(-26px) scale(.92)}60%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes sheetSpring{0%{transform:translateY(70px);opacity:.4}100%{transform:none;opacity:1}}
+@keyframes toastPop{0%{transform:translateX(-50%) translateY(24px) scale(.85);opacity:0}100%{transform:translateX(-50%);opacity:1}}
+@keyframes totalPop{0%{transform:scale(1)}35%{transform:scale(1.09)}100%{transform:scale(1)}}
+@keyframes numBump{0%{transform:scale(1)}40%{transform:scale(1.28);color:var(--accent)}100%{transform:scale(1)}}
+@keyframes panelIn{0%{opacity:0;transform:scaleY(.85) translateY(-8px)}100%{opacity:1;transform:none}}
+@keyframes oiRow{0%{opacity:0;transform:translateX(-14px)}100%{opacity:1;transform:none}}
+@keyframes cardIn{0%{opacity:0;transform:translateY(18px) scale(.94)}100%{opacity:1;transform:none}}
+@keyframes barGrow{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+@keyframes slideNext{0%{opacity:0;transform:translateX(34px)}100%{opacity:1;transform:none}}
+@keyframes slidePrev{0%{opacity:0;transform:translateX(-34px)}100%{opacity:1;transform:none}}
+@keyframes chipPop{0%{transform:scale(.86)}55%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes tickPop{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes breathe{0%,100%{box-shadow:0 14px 28px -12px rgba(17,125,68,.5),0 0 0 0 rgba(17,125,68,.35)}50%{box-shadow:0 14px 28px -12px rgba(17,125,68,.5),0 0 0 9px rgba(17,125,68,0)}}
+@keyframes paidPop{0%{transform:scale(.8)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+}

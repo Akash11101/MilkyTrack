@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>try{ if(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) document.documentElement.classList.add("native"); }catch(e){}</script>
+<meta name="format-detection" content="telephone=no, address=no, email=no" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com; frame-src 'self' blob: data: about:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<script>
+/* In the Android app the system already keeps the window clear of the camera cut-out (black side bar in landscape),
+   so adding the web safe-area padding on top of it would push everything in twice. Browsers / home-screen installs keep it. */
+(function(){ try{ var c = window.Capacitor, native = c && typeof c.isNativePlatform==="function" && c.isNativePlatform();
+  if(native || /Android.*; wv\)/.test(navigator.userAgent)){ var st = document.documentElement.style; ["--sal","--sar"].forEach(function(k){ st.setProperty(k,"0px"); }); document.documentElement.setAttribute("data-native","1"); } }catch(e){} })();
+</script>
+<title>MilkyTrack</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="data:,">
+<link rel="apple-touch-icon" href="data:,">
+<meta name="theme-color" content="#117D44">
+<meta name="description" content="Track daily milk deliveries, totals and bills.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/entries.css">
+<link rel="stylesheet" href="styles/customers.css">
+<link rel="stylesheet" href="styles/sheets.css">
+<link rel="stylesheet" href="styles/report.css">
+<link rel="stylesheet" href="styles/motion.css">
+</head>
+<body>
+<div id="boot" aria-hidden="true"><img alt="" width="84" height="84" src="data:image/png;base64,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"></div>
+<div class="app">
+  <div class="topbar">
+    <div class="brand-row">
+      <!-- menu trigger lives in the nav bar itself now, left of the title,
+           instead of floating over the page. Everything that used to live
+           in the bottom dock — month nav, add delivery, mark range, and
+           the statement tools — lives inside the panel it opens. -->
+      <button type="button" class="hamburger-btn" id="menuBtn" data-i18n-aria="menu" data-i18n-title="menu" aria-label="Menu" title="Menu" aria-controls="drawer" aria-expanded="false"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <h1><img class="brand-wordmark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEzMyAxNjIgODQzIDE1MSI+PHBhdGggZmlsbD0iIzEzN0U0NCIgZD0iTTIzMy42LDI4MS43di00LjNjMC0xMy4xLDAtMjYuMy0wLjEtMzkuNGMwLTIuMy0wLjItNC42LTAuNS02LjhjLTAuOC01LTMuNy04LTcuOS04LjVjLTQuOC0wLjYtOS4zLDEuOC0xMSw2LjQgYy0wLjksMi42LTEuMiw1LjUtMS4zLDguMmMtMC4xLDEzLjEtMC4xLDI2LjMtMC4xLDM5LjRjMCwxLjUsMCwzLDAsNS4xaC0yOC4zYy0wLjEtMS40LTAuMi0yLjgtMC4yLTQuMWMwLTEyLjIsMC0yNC41LDAtMzYuNyBjMC0zLjEsMC02LjEtMC4zLTkuMmMtMC42LTUuMy0zLjQtOC41LTcuOC05LjFjLTQuNy0wLjYtOS4zLDEuNy0xMS4xLDYuM2MtMSwyLjQtMS40LDUuMi0xLjQsNy44Yy0wLjEsMTMuNS0wLjEsMjctMC4xLDQwLjV2NC40IGgtMjguM3YtODAuMmM1LjksMCwxMS45LTAuMiwxNy44LDAuMmMxLDAuMSwyLDIuMSwyLjgsMy4zYzEsMS42LDEuOSwzLjMsMyw1LjVjNi42LTcuNCwxNC44LTEwLjYsMjQuNC0xMC43IGM5LjYtMC4xLDE3LjYsMy4zLDIzLjgsMTEuMWM3LjUtOC4yLDE2LjctMTEuNSwyNy4zLTExYzE0LjMsMC43LDI1LjYsOS42LDI2LjgsMjQuMWMxLjYsMTkuMSwxLjIsMzguNCwxLjYsNTcuOEgyMzMuNnoiLz48cGF0aCBmaWxsPSIjRUFBMzI0IiBkPSJNNzY3LjIsMjAxLjVjLTUuOC0wLjUtMTEuMS0wLjMtMTIuNCw3LjJjLTE2LjMtMTQuNy00My43LTkuOS01Ni4xLDMuM2MtMTMuNiwxNC41LTE1LjIsMzkuMy0zLjMsNTUuOSBjNS42LDcuOCwxMy4xLDEyLjgsMjIuMywxNS4xYzEyLjksMy4yLDI1LDEuNywzNS4zLTYuOWMxLjgsMi4yLDMuMyw1LjUsNSw1LjZjNi4yLDAuNywxMi42LDAuMywxOC45LDAuM3YtODAuNCBDNzczLjUsMjAxLjUsNzcwLjQsMjAxLjgsNzY3LjIsMjAxLjV6IE03MzMsMjYwYy05LjcsMC0xNy4yLTguMS0xNy4xLTE4LjZjMC4xLTEwLjEsNy41LTE3LjgsMTctMTcuOGM5LjksMCwxNi44LDcuNiwxNi43LDE4LjMgQzc0OS42LDI1Mi4zLDc0Mi42LDI2MCw3MzMsMjYweiIvPjxwYXRoIGZpbGw9IiMxMzdFNDQiIGQ9Ik00NTQuNCwyODJoLTkuMWMtMy4xLDAtNi4xLDAtOS4yLDBjLTQuNi0wLjEtMTAsMS4yLTEzLjUtMC44Yy0zLjUtMi01LjEtNy4zLTcuNS0xMS4yIGMtNC4xLTYuNi04LjEtMTMuMy0xMi4yLTE5LjljLTAuMi0wLjMtMC41LTAuNS0xLjQtMS4ydjMyLjlIMzczVjE3MmgyOC42djU5LjdjMC4zLDAuMSwwLjYsMC4yLDEsMC4zYzEtMS40LDItMi44LDIuOS00LjMgYzQuOS03LjgsOS42LTE1LjYsMTQuNi0yMy4zYzAuOS0xLjMsMi45LTIuNiw0LjQtMi43YzguNC0wLjIsMTEuMSwwLjEsMTkuNSwwLjJjMC43LDAsNy4xLTAuMSw4LjQsMC4xYy0xLjgsMi45LTMuMyw1LjMtNC44LDcuNyBjLTUuOCw5LTExLjUsMTguMS0xNy40LDI3Yy0xLjUsMi4yLTEuNCwzLjgsMCw2LjFjNy42LDExLjksMTUsMjQsMjIuNCwzNkM0NTMuMSwyNzkuNiw0NTMuNiwyODAuNSw0NTQuNCwyODJ6Ii8+PHBhdGggZmlsbD0iI0VBQTMyNCIgZD0iTTk3My4zLDI4MmMtMTAuNiwwLTIwLjQsMC4xLTMwLjItMC4xYy0xLjIsMC0yLjgtMS41LTMuNi0yLjdjLTUuMy04LjUtMTAuNC0xNy4yLTE1LjYtMjUuOCBjLTAuOC0xLjMtMS43LTIuNS0zLjItMy43djMxLjloLTI4LjlWMTcyLjFoMjguNXY1OS40YzAuMywwLjEsMC43LDAuMywxLDAuNGMwLjktMS4yLDItMi4zLDIuOC0zLjZjNS04LDEwLTE2LDE0LjktMjQgYzEuMi0yLDIuNS0yLjgsNC44LTIuOGM5LDAuMSwxOCwwLjEsMjcuNywwLjFjLTEsMS44LTEuNSwyLjgtMi4yLDMuOWMtNi42LDEwLjQtMTMuMiwyMC45LTIwLDMxLjJjLTEuNiwyLjQtMS42LDQtMC4xLDYuNCBjNy41LDExLjcsMTQuNywyMy41LDIyLDM1LjNDOTcxLjgsMjc5LjMsOTcyLjMsMjgwLjMsOTczLjMsMjgyeiIvPjxwYXRoIGZpbGw9IiMxMzdFNDQiIGQ9Ik01NDguNCwyMDEuNWMtMi4zLDUuNC00LjMsMTAuNC02LjMsMTUuM2MtOS4xLDIxLjQtMTgsNDMtMjcuMyw2NC4zYy0yLjEsNS4xLTQuOCwxMC4yLTcuOSwxNC44IGMtNi4zLDEwLTE1LjUsMTUuMy0yNy40LDE1LjdjLTUuMSwwLjItMTAuNCwwLTE1LjksMHYtMjMuOWM0LjEsMCw4LjMsMC41LDEyLjItMC4yYzMtMC41LDYuMi0yLDguNy00YzIuOS0yLjQsMy41LTUuNiwxLjctOS44IGMtMTAuMS0yMi43LTE5LjctNDUuNi0yOS41LTY4LjRjLTAuNS0xLTEuMy0zLjUtMS4zLTMuNXMxOS4yLTAuMywyNy4yLTAuNGMyLjUtMC4xLDMuNiwwLjgsNC40LDMuMWM0LjYsMTMuMSw5LjQsMjYuMSwxNC4xLDM5IGMwLjMsMC43LDAuNiwxLjMsMS4xLDIuN2M0LTExLjQsNy43LTIyLDExLjYtMzIuN2MxLjQtMy45LDEuOC05LjMsNC43LTExLjNjMS41LTEuMSw3LjQtMC44LDExLjctMC44SDU0OC40eiIvPjxwYXRoIGZpbGw9IiNFQUEzMjQiIGQ9Ik04NzcuOSwyNDhjLTAuMywxNC44LTE0LjIsMzUuNS00MC44LDM2LjRjLTI1LjksMC45LTQ1LjYtMTYuMS00Ni40LTQwLjRjLTAuOS0yNC45LDE2LjYtNDMuNCw0Mi00NC4zIGMyNC40LTAuOCw0NC4zLDE0LjUsNDUsMzUuMWMtOC42LDAtMTcuMywwLjEtMjUuOS0wLjFjLTAuOCwwLTEuOC0xLjItMi4yLTIuMWMtMi44LTUuOC03LjYtOC40LTEzLjgtOC42IGMtNi41LTAuMS0xMS43LDIuNS0xNC43LDguNWMtMy40LDYuOS0zLjMsMTMuOSwxLjEsMjAuM2MzLjcsNS40LDkuMiw3LjQsMTUuNyw2LjZjNS4zLTAuNyw5LjMtMy42LDExLjQtOC41YzEuMS0yLjQsMi40LTMuMSw0LjktMyBDODYyLjEsMjQ4LjEsODcwLDI0OCw4NzcuOSwyNDh6Ii8+PHBhdGggZmlsbD0iI0VBQTMyNCIgZD0iTTYxNC4zLDI1OHYyMy40Yy0xMC44LDEuNi0yMS40LDIuNC0zMS44LTEuMmMtMTAuNC0zLjYtMTYuNS0xMS0xNy40LTIyYy0wLjctOC40LTAuNC0xNi44LTAuNS0yNS4yIGMwLTMsMC02LjEsMC05LjdoLTEzLjdjLTAuNi00LjktMC43LTguOCwzLjEtMTIuN2M5LjYtOS43LDE4LjktMTkuNywyNy44LTI5LjljMy4yLTMuNiw2LjQtNC41LDExLjEtMy40djI0LjJoMjAuN3YyMS43aC0yMC4xIGMwLDkuNy0wLjQsMTguOSwwLjIsMjguMWMwLjIsMy45LDMuNiw2LjQsNy44LDYuN0M2MDUuNiwyNTguMiw2MDkuOCwyNTgsNjE0LjMsMjU4eiIvPjxyZWN0IHg9IjMyNi40IiB5PSIxNzEuOSIgZmlsbD0iIzEzN0U0NCIgd2lkdGg9IjI4LjIiIGhlaWdodD0iMTA5LjgiLz48cGF0aCBmaWxsPSIjRUFBMzI0IiBkPSJNNjgxLjgsMjAxLjZ2MjUuNGMtMS41LDAtMi45LDAuMS00LjIsMGMtMS41LTAuMS0zLTAuNC00LjYtMC40Yy0xMi0wLjUtMTYuMiwzLjYtMTYuMiwxNS43YzAsMTMsMCwyNiwwLDM5LjUgaC0yOC42di04MC4yYzUuOCwwLDExLjUtMC4xLDE3LjIsMC4xYzAuOSwwLDIuMSwxLjMsMi42LDIuMmMxLjIsMi4xLDIsNC4zLDMuMiw2LjlDNjU5LjYsMjAxLDY3MC40LDIwMC42LDY4MS44LDIwMS42eiIvPjxyZWN0IHg9IjI3OS42IiB5PSIyMDEuOCIgZmlsbD0iIzEzN0U0NCIgd2lkdGg9IjI4LjQiIGhlaWdodD0iNzkuOSIvPjxwYXRoIGZpbGw9IiMxMzdFNDQiIGQ9Ik0zMDkuMywxODAuOGMtMC44LDYuNy01LjEsMTAuOS0xMiwxMS45Yy0xLjEsMC4yLTIuMywwLjEtMi45LDAuMmMtMTIuMywwLTE4LjgtOC4zLTE1LjYtMTkuMSBjMS4xLTMuOCwzLjUtNi41LDcuMi03LjhjNS4yLTEuOSwxMC41LTEuOSwxNS43LDAuMUMzMDcuNCwxNjguMSwzMTAuMiwxNzMuOCwzMDkuMywxODAuOHoiLz48cGF0aCBmaWxsPSIjMTM3RTQ0IiBkPSJNMjYxLDIyMy45YzEuNiwxOS4xLDEuMiwzOC40LDEuNiw1Ny44aC0yOXYtNC4zYzAtMTMuMSwwLTI2LjMtMC4xLTM5LjRjMC0yLjMtMC4yLTQuNi0wLjUtNi44IGMtMC44LTUtMy43LTgtNy45LTguNWMtNC44LTAuNi05LjMsMS44LTExLDYuNGMtMC45LDIuNi0xLjIsNS41LTEuMyw4LjJjLTAuMSwxMy4xLTAuMSwyNi4zLTAuMSwzOS40YzAsMS41LDAsMywwLDUuMWgtMjguMyBjLTAuMS0xLjQtMC4yLTIuOC0wLjItNC4xYzAtMTIuMiwwLTI0LjUsMC0zNi43YzAtMy4xLDAtNi4xLTAuMy05LjJjLTAuNi01LjMtMy40LTguNS03LjgtOS4xYy00LjctMC42LTkuMywxLjctMTEuMSw2LjMgYy0xLDIuNC0xLjQsNS4yLTEuNCw3LjhjLTAuMSwxMy41LTAuMSwyNy0wLjEsNDAuNXY0LjRoLTI4LjN2LTgwLjJjNS45LDAsMTEuOS0wLjIsMTcuOCwwLjJjMSwwLjEsMiwyLjEsMi44LDMuMyBjMSwxLjYsMS45LDMuMywzLDUuNWM2LjYtNy40LDE0LjgtMTAuNiwyNC40LTEwLjdjOS42LTAuMSwxNy42LDMuMywyMy44LDExLjFjNy41LTguMiwxNi43LTExLjUsMjcuMy0xMSBDMjQ4LjUsMjAwLjUsMjU5LjgsMjA5LjQsMjYxLDIyMy45eiIvPjwvc3ZnPg==" alt="MilkyTrack"><span class="brand-name" data-i18n="appTitle" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">MilkyTrack</span></h1>
+      <span class="lock-spacer" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div id="homeView">
+    <div class="home-head"><h2 data-i18n="custListTitle">Customer List</h2><span id="custCount"></span></div>
+    <input type="search" id="cSearch" class="date-field" autocomplete="off" data-i18n-ph="custSearch" placeholder="Search customers">
+    <div id="custList" class="cust-list" aria-live="polite"></div>
+    <button type="button" class="add-btn" id="addCustBtn" data-i18n="custAdd">Add customer</button>
+  </div>
+  <div id="custCard">
+  <div id="custBar"><div class="cb-text"><b id="custBarName"></b><span id="custBarSub"></span></div>
+    <div class="cb-tools"><button type="button" id="cbCopy" aria-label="Copy to clipboard" title="Copy to clipboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="4" rx="1.5"/><path d="M16 5h1.5A1.5 1.5 0 0 1 19 6.5v13a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H8"/></svg></button>
+      <button type="button" id="cbRecv" aria-label="Receive via UPI" title="Receive via UPI"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><path d="M14 14h2.5v2.5H14zM19 14v.01M14 19.5v.01M17.5 18.5h3v2"/></svg></button>
+      <button type="button" id="cbRange" aria-label="Mark range" title="Mark range"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M7.5 14.5h9"/></svg></button>
+      <button type="button" id="cbPdf" aria-label="Export PDF" title="Export PDF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></button>
+      <button type="button" id="cbPaid" class="unpaid" aria-pressed="false"><svg class="pi-unpaid" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg><svg class="pi-paid" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16.2 9.5"/></svg><span id="cbPaidTxt"></span></button>
+      <div class="cb-month"><button type="button" id="cbPrev" aria-label="Previous month">‹</button><span id="cbMonth"></span><button type="button" id="cbNext" aria-label="Next month">›</button></div></div></div>
+  <div class="day-strip" id="dayStrip" role="group" data-i18n-aria="dayStripLabel" aria-label="Days this month, tap to jump to or quick-add a delivery"></div>
+  <div class="hero" id="hero" aria-live="polite"></div>
+  </div>
+  <div id="listView"></div>
+  <div id="todayCard"></div>
+</div>
+
+<!-- quick-add: shown once a day with no delivery yet is selected in the day strip -->
+<button type="button" class="hamburger-btn lock-btn" id="lockBtn" aria-pressed="false" data-i18n-aria="lockEntries" data-i18n-title="lockEntries" aria-label="Lock entries" title="Lock entries"><svg class="ic-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 6.8-1.2"/></svg><svg class="ic-closed" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2.2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg></button>
+<button type="button" class="quick-add-btn" id="quickAddBtn" data-i18n-aria="addForDate" data-i18n-title="addForDate" aria-label="Create a delivery card for the selected date" title="Add delivery for this date"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+
+<div class="sheet-overlay" id="drawerOverlay" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer" id="drawer" tabindex="-1">
+    <div class="drawer-head"><h2 id="drawerTitle"><span data-i18n="menu">Menu</span></h2><button type="button" class="icon-btn" id="drawerClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <div class="drawer-nav">
+      <button type="button" class="dock-icon nav-arrow" id="prevMonth" data-i18n-aria="prevMonth" aria-label="Previous month">‹</button>
+      <span class="month-label" id="monthLabel"></span>
+      <button type="button" class="dock-icon nav-arrow" id="nextMonth" data-i18n-aria="nextMonth" aria-label="Next month">›</button>
+    </div>
+    <div class="settings-list drawer-section">
+      <button type="button" class="settings-item" id="custBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.8c1.8.7 3 2.4 3 5.2"/></svg></span><span data-i18n="custTitle">Customers</span></button>
+      <button type="button" class="settings-item" id="rangeBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3v3.6M16 3v3.6"/></svg></span><span data-i18n="markRange">Mark range</span></button>
+      <button type="button" class="settings-item" id="recvBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h3v-3"/></svg></span><span data-i18n="recvUpi">Receive via UPI</span></button>
+      <button type="button" class="settings-item" id="settingsExport"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span data-i18n="exportPdf">Export PDF</span></button>
+      <button type="button" class="settings-item" id="settingsCopy"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3.5" width="8" height="4" rx="1"/><path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/></svg></span><span data-i18n="copyClipboard">Copy to clipboard</span></button>
+      <button type="button" class="settings-item" id="backupBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4m0 0L8 8m4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span><span data-i18n="backup">Back up data</span></button>
+      <button type="button" class="settings-item" id="restoreBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span><span data-i18n="restore">Restore backup</span></button>
+      <button type="button" class="settings-item" id="reportBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span data-i18n="report">Report</span></button>
+      <button type="button" class="settings-item" id="langBtn" aria-label="Switch language" title="Switch language"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z"/></svg></span><span data-i18n="switchLang">EN/हि</span></button>
+      <button type="button" class="settings-item" id="priceBtn"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h10M7 9h10M10 5c4 0 5 2 5 4s-1 4-5 4l6 6"/></svg></span><span class="si-label" data-i18n="priceMenu">Default prices</span></button>
+      <button type="button" class="settings-item" id="hapBtn" role="switch" aria-checked="true"><span class="si-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="18" rx="2"/><path d="M4 8v8M20 8v8"/></svg></span><span class="si-label" data-i18n="hapticLbl">Haptic feedback</span><span class="tgl" aria-hidden="true"><i></i></span></button>
+    </div>
+    <a href="#privacy" class="priv-link" id="privLink" data-i18n="privacy">Privacy Policy</a>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="privSheet" role="dialog" aria-modal="true" aria-labelledby="privTitle">
+  <div class="sheet" id="privBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="privTitle" data-i18n="privacy">Privacy Policy</h2><button type="button" class="icon-btn" id="privClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <div class="priv-body" id="privBody"></div>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet" id="sheetBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="sheetTitle" data-i18n="sheetTitle">Mark a range of days</h2><button type="button" class="icon-btn" id="sheetClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <p class="sheet-sub" data-i18n="sheetSub">Logs a delivery on each date in the range, all with the same quantity and price.</p>
+    <div class="range-cal" id="rangeCal"></div>
+    <div class="two-col dates">
+      <div class="field"><label class="flabel" for="bFrom" data-i18n="from">From</label><input type="date" id="bFrom" class="date-field"></div>
+      <div class="field"><label class="flabel" for="bTo" data-i18n="to">To</label><input type="date" id="bTo" class="date-field"></div>
+    </div>
+    <span class="flabel mt" data-i18n="repeat">Repeat</span>
+    <div class="chips" id="chips">
+      <button type="button" class="chip" data-step="1" data-i18n="everyDay">Every day</button>
+      <button type="button" class="chip" data-step="twice" data-i18n="twiceDay">Twice a day</button>
+      <button type="button" class="chip" data-step="2" data-i18n="every2Days">Every 2 days</button>
+      <button type="button" class="chip" data-step="3" data-i18n="every3Days">Every 3 days</button>
+      <button type="button" class="chip" data-step="7" data-i18n="weekly">Weekly</button>
+      <button type="button" class="chip" data-step="weekdays" data-i18n="weekdays">Weekdays</button>
+    </div>
+    <div class="two-col mt">
+      <div class="field"><span class="flabel" data-i18n="litres">Litres</span>
+        <div class="num-ctl"><button type="button" class="stepper b-step" data-t="bQty" data-dir="-1" data-i18n-aria="decLitres" aria-label="Decrease litres">−</button><input type="number" inputmode="decimal" step="0.5" min="0" id="bQty" data-i18n-aria="litres" aria-label="Litres"><button type="button" class="stepper b-step" data-t="bQty" data-dir="1" data-i18n-aria="incLitres" aria-label="Increase litres">+</button></div></div>
+      <div class="field"><span class="flabel" data-i18n="priceL">Price/L</span>
+        <div class="num-ctl"><button type="button" class="stepper b-step" data-t="bAmt" data-dir="-1" data-i18n-aria="decPrice" aria-label="Decrease price per litre">−</button><input type="number" inputmode="decimal" step="0.5" min="0" id="bAmt" data-i18n-aria="pricePerLitre" aria-label="Price per litre"><button type="button" class="stepper b-step" data-t="bAmt" data-dir="1" data-i18n-aria="incPrice" aria-label="Increase price per litre">+</button></div></div>
+    </div>
+    <div class="bulk-summary" id="bSummary" aria-live="polite"></div>
+    <div class="bs-sub" id="bRemSub" style="margin-top:8px;color:#B3261E"></div>
+    <div class="sheet-actions tri"><button type="button" class="btn-ghost" id="bCancel" aria-label="Cancel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg><span data-i18n="cancel">Cancel</span></button><button type="button" class="btn-ghost b-remove" id="bRemove" disabled aria-label="Remove"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg><span data-i18n="remove">Remove</span></button><button type="button" class="add-btn" id="bAdd" aria-label="Add"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="add">Add</span></button></div>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="priceSheet" role="dialog" aria-modal="true" aria-labelledby="priceTitle">
+  <div class="sheet" id="priceBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="priceTitle" data-i18n="priceTitle">Default prices</h2><button type="button" class="icon-btn" id="priceClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <p class="fmt-note" data-i18n="priceHint">Used for new deliveries and when a card is switched to another item. Leave a price empty for none.</p>
+    <div id="priceFields"></div>
+    <div class="sheet-actions"><button type="button" class="btn-ghost" id="priceCancel" data-i18n="cancel">Cancel</button><button type="button" class="add-btn" id="priceSave" data-i18n="priceSave">Save</button></div>
+  </div>
+</div>
+<div class="sheet-overlay" id="fmtSheet" role="dialog" aria-modal="true" aria-labelledby="fmtTitle">
+  <div class="sheet" id="fmtBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="fmtTitle" data-i18n="fmtTitle">Choose bill format</h2><button type="button" class="icon-btn" id="fmtClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <div class="fmt-opts">
+      <button type="button" class="fmt-card" id="fmtA4">
+        <div class="fmt-info"><span class="fmt-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><div><b data-i18n="fmtA4">A4 bill</b><span data-i18n="fmtA4Sub">Full page PDF with table and QR</span></div></div>
+      </button>
+      <button type="button" class="fmt-card" id="fmtThermal">
+        <div class="fmt-info"><span class="fmt-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><div><b data-i18n="fmtThermal">Thermal receipt</b><span data-i18n="fmtThermalSub">80 mm POS printer slip (PDF)</span></div></div>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div class="sheet-overlay" id="paySheet" role="dialog" aria-modal="true" aria-labelledby="payTitle">
+  <div class="sheet" id="payBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="payTitle" data-i18n="payUpi">Pay via UPI</h2><button type="button" class="icon-btn" id="payClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <p class="sheet-sub" id="paySub"></p>
+    <div class="field"><label class="flabel" for="payAmt" data-i18n="payAmount">Amount (₹)</label><input type="number" inputmode="decimal" step="0.01" min="0" id="payAmt" class="date-field"></div>
+    <div class="field mt"><label class="flabel" for="payId" data-i18n="payId">UPI ID</label><input type="text" id="payId" class="date-field" autocomplete="off" autocapitalize="none" spellcheck="false" data-i18n-ph="payIdPh" placeholder="name@bank"></div>
+    <div class="field mt"><label class="flabel" for="payName" data-i18n="payName">Payee name (optional)</label><input type="text" id="payName" class="date-field" autocomplete="off" maxlength="40"></div>
+    <div class="pay-msg" id="payMsg" aria-live="polite"></div>
+    <div class="pay-apps">
+      <button type="button" class="add-btn pay-any" data-app="upi" data-i18n="payAny">Pay with UPI app</button>
+      <div class="pay-row">
+        <button type="button" class="chip pay-app" data-app="gpay">Google Pay</button>
+        <button type="button" class="chip pay-app" data-app="phonepe">PhonePe</button>
+        <button type="button" class="chip pay-app" data-app="paytm">Paytm</button>
+        <button type="button" class="chip" id="payCopy" data-i18n="payCopyId">Copy UPI ID</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="recvSheet" role="dialog" aria-modal="true" aria-labelledby="recvTitle">
+  <div class="sheet" id="recvBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="recvTitle" data-i18n="recvUpi">Receive via UPI</h2><button type="button" class="icon-btn" id="recvClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <p class="sheet-sub" id="recvSub"></p>
+    <div class="recv-qr" id="recvQr" aria-live="polite"></div>
+    <div class="recv-amt" id="recvAmtShow"></div>
+    <div class="cust-form">
+      <div class="cust-row2"><input type="text" id="rvId" class="date-field" autocomplete="off" autocapitalize="none" spellcheck="false" data-i18n-ph="recvYourId" placeholder="Your UPI ID (name@bank)"><input type="number" id="rvAmt" class="date-field" inputmode="decimal" min="0" step="0.01" data-i18n-ph="payAmount" placeholder="Amount (₹)"></div>
+      <input type="text" id="rvName" class="date-field" maxlength="40" autocomplete="off" data-i18n-ph="payName" placeholder="Payee name (optional)">
+    </div>
+    <div class="pay-msg" id="rvMsg" aria-live="polite"></div>
+    <div class="recv-actions">
+      <button type="button" class="chip" id="rvCopyLink" data-i18n="recvCopyLink">Copy payment link</button>
+      <button type="button" class="chip" id="rvCopyMsg" data-i18n="recvCopyMsg">Copy message</button>
+      <button type="button" class="chip" id="rvPaid" data-i18n="recvMarkPaid">Mark month paid</button>
+    </div>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="custSheet" role="dialog" aria-modal="true" aria-labelledby="custHead">
+  <div class="sheet" id="custBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="custHead" data-i18n="custNew">New customer</h2><button type="button" class="icon-btn" id="custClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <div class="cust-form">
+      <input type="text" id="cName" class="date-field" maxlength="60" autocomplete="off" data-i18n-ph="custName" placeholder="Customer name">
+      <div class="cust-row2"><input type="tel" id="cPhone" class="date-field" inputmode="tel" maxlength="16" autocomplete="off" data-i18n-ph="custPhone" placeholder="+91 98765 43210"><input type="number" id="cPrice" class="date-field" inputmode="decimal" min="0" step="0.5" data-i18n-ph="custPrice" placeholder="Price/L"></div>
+      <input type="text" id="cAddr" class="date-field" maxlength="120" autocomplete="off" data-i18n-ph="custAddr" placeholder="Address (optional)">
+      <button type="button" class="add-btn" id="cAdd" data-i18n="custAdd">Add customer</button>
+    </div>
+  </div>
+</div>
+<div class="sheet-overlay" id="reportSheet" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+  <div class="sheet" id="reportBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="reportTitle" data-i18n="report">Report</h2><button type="button" class="icon-btn" id="reportClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <div class="rep-nav"><button type="button" class="rep-flip" id="repPrev" aria-label="Previous month">‹ <span data-i18n="repPrevBtn">Prev</span></button><span id="repMonth"></span><button type="button" class="rep-flip" id="repNext" aria-label="Next month"><span data-i18n="repNextBtn">Next</span> ›</button></div>
+    <div id="repBody"></div>
+  </div>
+</div>
+<div class="sheet-overlay" id="restoreSheet" role="dialog" aria-modal="true" aria-labelledby="restoreTitle">
+  <div class="sheet" id="restoreBox" tabindex="-1">
+    <div class="sheet-head"><h2 id="restoreTitle" data-i18n="restore">Restore backup</h2><button type="button" class="icon-btn" id="restoreClose" data-i18n-aria="close" aria-label="Close">✕</button></div>
+    <p class="sheet-sub" data-i18n="restoreSub">Paste the backup you copied with "Back up data". This replaces the entries on this device (you can undo right after).</p>
+    <textarea id="restoreText" class="date-field restore-text" rows="6" spellcheck="false" autocomplete="off" aria-label="Backup"></textarea>
+    <input type="file" id="restoreFile" accept=".json,application/json" class="restore-file" data-i18n-aria="restoreFile" aria-label="Choose a backup file">
+    <div class="pay-msg" id="restoreMsg" aria-live="polite"></div>
+    <div class="sheet-actions"><button type="button" class="btn-ghost" id="restoreCancel" data-i18n="cancel">Cancel</button><button type="button" class="add-btn" id="restoreGo" data-i18n="restore">Restore backup</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="toastUndo" data-i18n="undo">Undo</button></div>
+
+<script src="i18n/strings.js"></script>
+<script src="utils/helpers.js"></script>
+<script src="i18n/i18n.js"></script>
+<script src="utils/calc.js"></script>
+<script src="models/store.js"></script>
+<script src="views/summary.js"></script>
+<script src="views/entryList.js"></script>
+<script src="views/effects.js"></script>
+<script src="controllers/swipeDelete.js"></script>
+<script src="middleware/haptics.js"></script>
+<script src="controllers/entryEditing.js"></script>
+<script src="controllers/entryLocking.js"></script>
+<script src="views/overlays.js"></script>
+<script src="models/backup.js"></script>
+<script src="controllers/customers.js"></script>
+<script src="controllers/report.js"></script>
+<script src="controllers/pay.js"></script>
+<script src="controllers/receive.js"></script>
+<script src="views/rangeCalendar.js"></script>
+<script src="controllers/bulkAdd.js"></script>
+<script src="config/items.js"></script>
+<script src="controllers/navigation.js"></script>
+<script src="controllers/defaultPrices.js"></script>
+<script src="utils/months.js"></script>
+<script src="controllers/export.js"></script>
+<script src="middleware/platform.js"></script>
+<script src="controllers/startup.js"></script>
+</body>
+</html>
+
+</body></html>

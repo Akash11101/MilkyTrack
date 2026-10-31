@@ -1,0 +1,14 @@
+{
+  "appId": "com.milktracker.app",
+  "appName": "MilkyTrack",
+  "webDir": "www",
+  "backgroundColor": "#F9F7F7",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  },
+  "loggingBehavior": "none"
+}

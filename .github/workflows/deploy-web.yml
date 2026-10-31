@@ -1,0 +1,42 @@
+name: Deploy web app (GitHub Pages)
+
+# Turn on once in the repo: Settings -> Pages -> Source: "GitHub Actions".
+# Publishes the web app AND the public privacy policy at <site>/privacy.html
+# (the URL the Play Store asks for). Runs on push to main, or from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - name: Bundle fonts for offline use
+        continue-on-error: true
+        run: node scripts/prepare-fonts.mjs
+      - name: Add public privacy policy page
+        run: cp docs/privacy.html www/privacy.html
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: www
+      - id: deployment
+        uses: actions/deploy-pages@v4

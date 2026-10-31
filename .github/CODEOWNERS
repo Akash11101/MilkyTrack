@@ -1,0 +1,14 @@
+# Assign each area to a team, then remove the leading "#" from its line.
+# Teams are examples: replace @your-org/... with real GitHub users or teams.
+#
+# /www/controllers/   @your-org/app-logic
+# /www/models/        @your-org/data
+# /www/views/         @your-org/ui
+# /www/styles/        @your-org/ui
+# /www/i18n/          @your-org/content        # English and Hindi text
+# /www/services/      @your-org/billing        # bills, PDF, report
+# /www/middleware/    @your-org/platform
+# /www/config/        @your-org/app-logic
+# /www/utils/         @your-org/app-logic
+# /android-overrides/ @your-org/android
+# /.github/           @your-org/devops
